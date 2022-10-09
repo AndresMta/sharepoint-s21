@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="../../js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Listado De Documentos</title>
+</head>
+
+<body>
+    <?php require_once '../../auxiliares/navbar.php'; ?>
+
+    <div class="container-fluid py-3">
+        <p class="fs-3">
+            Listado De Documentos
+        </p>
+
+        <ul class="list-group list-group-flush">
+            <?php foreach($archivos as $archivo) { ?>
+            <li class="list-group-item">
+                <h5><?php echo $archivo['archivo_nombre']; ?></h5>
+                <p class="text-muted">
+                    <b>Fecha De Subida:</b> <?php echo $archivo['archivo_fecha_carga']; ?> 
+                </p>
+                <p>
+                    <?php echo $archivo['archivo_descripcion']; ?>
+                </p>
+
+                <button form="descargarDoc-<?php echo $archivo['archivo_id']; ?>" class="btn btn-primary" type="submit">
+                    Descargar
+                </button>
+                
+                <a href="/sharepoint/documentos/controllers/editarDocumento.php?id=<?php echo $archivo['archivo_id']; ?>" class="btn btn-danger">
+                    Editar
+                </a>
+
+                <input form="descargarDoc-<?php echo $archivo['archivo_id']; ?>" type="text" hidden name="archivo_id" value="<?php echo $archivo['archivo_id']; ?>">
+                <form id="descargarDoc-<?php echo $archivo['archivo_id']; ?>" action="../models/dbDescargarDocumento.php" method="POST"></form>
+            </li>
+            <?php } ?>
+        </ul>
+
+    </div>
+
+    <script src="../../js/alerta.js"></script>
+</body>
+
+</html>

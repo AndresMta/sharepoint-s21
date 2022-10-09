@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="../../js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Editar Documento</title>
+</head>
+<body>
+    <?php require_once '../../auxiliares/navbar.php'; ?>
+    
+    <div class="container-fluid py-3">
+        <p class="fs-3">
+            Editar Documento
+        </p>
+
+        <div class="form-floating mb-3">
+            <input form="editarDocumento" type="text" name="documento_nombre" id="documento_nombre" class="form-control" placeholder="Nombre" required value="<?php echo $archivo['archivo_nombre']; ?>">
+            <label for="documento_nombre">Nombre:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea form="editarDocumento" class="form-control" name="documento_comentario" id="documento_comentario" style="height: 150px;"><?php echo $archivo['archivo_descripcion']; ?></textarea>
+            <label for="documento_comentario">Comentario:</label>
+        </div>
+
+        <button form="descargarDoc" class="btn btn-primary mb-3" type="submit">
+            Descargar Archivo
+        </button>
+
+        <input form="descargarDoc" type="text" hidden name="archivo_id" value="<?php echo $archivoId; ?>">
+        <form id="descargarDoc" action="../models/dbDescargarDocumento.php" method="POST"></form>
+
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <button form="editarDocumento" class="btn btn-primary w-100" type="submit" id="submitEditArchivo">Editar</button>
+                <button class="btn btn-primary w-100 d-none" style="height: 38px;" id="loadingEditArchivo" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <button form="eliminarDocumento" class="btn btn-danger w-100" type="submit" id="submitEliminar">Eliminar</button>
+                <button class="btn btn-danger w-100 d-none" style="height: 38px;" id="loadingEliminar" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <input form="editarDocumento" type="text" hidden name="archivo_id" value="<?php echo $archivoId; ?>">
+        <form id="editarDocumento" action="../models/dbEditarDocumento.php" method="POST" enctype="multipart/form-data" onsubmit="loadingSubmit('submitEditArchivo', 'loadingEditArchivo');"></form>
+
+        <input form="eliminarDocumento" type="text" hidden name="archivo_id" value="<?php echo $archivoId; ?>">
+        <form id="eliminarDocumento" action="../models/dbEliminarDocumento.php" method="POST" onsubmit="loadingSubmit('submitEliminar', 'loadingEliminar');"></form>
+    </div>
+
+    <script src="../../js/alerta.js"></script>
+</body>
+</html>
